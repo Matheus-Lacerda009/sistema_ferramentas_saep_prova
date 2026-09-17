@@ -85,6 +85,28 @@ server.post('/produtos' , (req, res) => {
     });
 });
 
+server.put('/produtos/:id', (req, res) => {
+    const {nome, cor, textura, peso, unidade_medida,
+        aplicacao, data_validade, estoque_minimo, estoque_atual,
+        preco_unitario, id_categoria} = req.body;
+
+    const sql = `update PRODUTO set nome = ?, cor = ?, textura = ?, peso = ?, unidade_medida = ?, aplicacao = ?, data_validade = ?,
+                estoque_minimo = ?, estoque_atual = ?, preco_unitario = ?, id_categoria = ? where id_produto = ?`;
+    
+    const {id} = req.params;
+
+    connection.query(sql, [nome, cor, textura, peso, unidade_medida,
+        aplicacao, data_validade, estoque_minimo, estoque_atual,
+        preco_unitario, id_categoria, id], (erro) => {
+            if(erro){
+                return res.status(500).json({erro: erro.message});
+            }
+            return res.json({
+                mensagem: 'Produto atualizado com sucesso'
+            });
+        });
+
+});
 
 const PORT = 3025;
 
