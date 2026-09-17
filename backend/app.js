@@ -108,6 +108,17 @@ server.put('/produtos/:id', (req, res) => {
 
 });
 
+server.delete('/produtos/:id', (req, res) => {
+    const {id} = req.params;
+    const sql = 'delete from PRODUTO where id_produto = ?';
+    connection.query(sql, [id], (erro) => {
+        if(erro){
+            return res.status(500).json({erro : erro.message});
+        }
+        return res.json({mensagem : "Produto removido com sucesso"});
+    });
+});
+
 const PORT = 3025;
 
 server.listen(PORT, () => {
